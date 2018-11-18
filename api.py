@@ -53,4 +53,4 @@ def requestCueentWeather(city, county, village, isHourly = True):
 		pass
 if __name__== '__main__':
 
-	requestCueentWeather('서울','송파구','잠실7동')
+	requestCueentWeather('서울','용산구','청파동')
