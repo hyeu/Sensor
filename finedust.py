@@ -5,7 +5,7 @@ import json
 
 def get_finedust_data():
     Key = "&serviceKey=YlLv7z9QhbddC9gnDN3tpQfF5cWKoHUp1eYsAPOldfsF7I60a7JXnNLpEwR%2Byi0QDjAldaccns1aHV4J9tKeKg%3D%3D"
-    params = {"sidoName":"서울","pageNo":"6","numOfRows":"1","ver":"1.0","_returnType":"json"}
+    params = {"sidoName":"서울","pageNo":"2","numOfRows":"1","ver":"1.0","_returnType":"json"}
     url = "http://openapi.airkorea.or.kr/openapi/services/rest/ArpltnInforInqireSvc/getCtprvnRltmMesureDnsty?"
 
     request = rqst.urlopen(url + par.urlencode(params) + Key)
