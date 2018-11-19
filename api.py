@@ -1,3 +1,4 @@
+#-*- coding: utf-8 -*-
 import requests
 
 appKey = "c0fdb29b-a503-4503-98a8-e17070dbfe70"
