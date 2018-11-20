@@ -149,6 +149,7 @@ def setUltrasonic():
         
     #창문 열렸을 때 거리 기준값 설정
         if (dist >= 20):
+            #if 미세먼지 높았을때:
             setPiezo()
             setLCD2()
 
