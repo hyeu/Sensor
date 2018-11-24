@@ -31,7 +31,7 @@ E_PULSE = 0.0005
 E_DELAY = 0.0005
 
 #창문 LCD 기본값
-def setLCD1():
+def setLCD1(str1,str2):
     GPIO.setup(LCD_E, GPIO.OUT)
     GPIO.setup(LCD_RS, GPIO.OUT)
     #GPIO.setup(LCD_RW, GPIO.OUT)
@@ -43,24 +43,14 @@ def setLCD1():
     #initialise display
     lcd_init()
 
-    while True:
-        #창문 LCD 첫번째 표시 (미세먼지) / 3초 동안 지속
-        lcd_string("1234567890123456", LCD_LINE_1)
-        lcd_string("ABCDEFGHIJKLMNOP", LCD_LINE_2)
-        time.sleep(3)
-        
-        #창문 LCD 두번째 표시 (오늘날씨) / 3초 동안 지속
-        lcd_string("1234567890123456", LCD_LINE_1)
-        lcd_string("abcdefghijklmnop", LCD_LINE_2)
-        time.sleep(3)
+    #창문 LCD 표시/ 3초 동안 지속
+    lcd_string(str1, LCD_LINE_1)
+    lcd_string(str2, LCD_LINE_2)
+    time.sleep(3)
 
-        #창문 LCD 세번째 표시 (내일날씨) / 3초 동안 지속
-        lcd_string("1234567890123456", LCD_LINE_1)
-        lcd_string("1234567890123456", LCD_LINE_2)
-        time.sleep(3)
 
 #창문 열렸을 때 LCD 기본값
-def setLCD2():
+def setLCD2(str1, str2):
     GPIO.setup(LCD_E, GPIO.OUT)
     GPIO.setup(LCD_RS, GPIO.OUT)
     #GPIO.setup(LCD_RW, GPIO.OUT)
@@ -73,8 +63,8 @@ def setLCD2():
     lcd_init()
 
     #창문 열렸을 때 표시할 문구 입력
-    lcd_string("1234567890123456", LCD_LINE_1)
-    lcd_string("CLOSE THE WINDOW", LCD_LINE_2)
+    lcd_string(str1, LCD_LINE_1)
+    lcd_string(str2, LCD_LINE_2)
     time.sleep(5)
         
 def lcd_init():
@@ -141,18 +131,7 @@ GPIO_ECHO = 1
 def setUltrasonic():
     GPIO.setup(GPIO_TRIGGER, GPIO.OUT)
     GPIO.setup(GPIO_ECHO, GPIO.IN, pull_up_down = GPIO.PUD_UP)
-
-    while True:    
-        dist = distance()
-        print "Measured Distance = %.1f cm" %dist
-        time.sleep(0.5)
-        
-    #창문 열렸을 때 거리 기준값 설정
-        if (dist >= 20):
-            #if 미세먼지 높았을때:
-            setPiezo()
-            setLCD2()
-
+           
 def distance():
     GPIO.output(GPIO_TRIGGER, True)
     time.sleep(0.00001)
@@ -181,10 +160,9 @@ def setPiezo():
     p.ChangeDutyCycle(90)
     
     #창문 열렸을 때 소리 지속 시간 설정
-    for i in range(0, 3, 1):
-        for j in range(0, 3, 1):        
-            p.ChangeFrequency(392)
-            time.sleep(0.3)
+    for i in range(0, 3, 1):       
+        p.ChangeFrequency(392)
+        time.sleep(1)
     p.stop()
 #--------------------------------------------------
 if __name__=='__main__':
