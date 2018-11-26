@@ -1,5 +1,5 @@
 #-*-coding:utf-8-*-
-import RPi.GPIO as GPIO
+import GPIO
 import urllib.parse as urlparse
 import requests
 import json
