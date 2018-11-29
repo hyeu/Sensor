@@ -167,9 +167,9 @@ def setUltrasonic():
     #창문 열렸을 때 거리 기준값 설정
         if (dist >= 20):
             #미세먼지 등급
-            state = dust.grade_state()
+            dust_state = dust.grade_value()
 
-            if (state == '2') or (state == '3') or (state == '4'):           
+            if (dust_state == '2') or (dust_state == '3') or (dust_state == '4'):           
                 setPiezo()
                 setLCD2()
 
