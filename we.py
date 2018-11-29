@@ -14,39 +14,7 @@ params = {
         "version": "1", "city": "서울", "county": "용산구", "village": "청파동3가"
 }
 
-def forecastprec(weather):
-
-	timeRelease = weather['timeRelease']
-
-	grid_city = weather['grid']['city']
-	grig_county = weather['grid']['county']
-	grid_village = weather['grid']['village']
-
-	for_type = weather['fcst3hour']['precipitation']['type7hour']
-
-	if for_type == '0':
-		type_str = "no rain"
-	elif for_type == '1':
-		type_str = "rain"
-	elif for_type == '2':
-		type_str = "rain or snow"
-	elif for_type == '3':
-		type_str = "snow"
-
-	return type_str
-
-def forecasttemp(weather):
-	timeRelease = weather['timeRelease']
-
-	grid_city = weather['grid']['city']
-	grig_county = weather['grid']['county']
-	grid_village = weather['grid']['village']
-	temp_max = weather['fcstdaily']['temperature']['tmax2day']
-	temp_min = weather['fcstdaily']['temperature']['tmin2day']
-	
-	fortemp_str = "min " + temp_min + " max "+ temp_max
-
-	return fortemp_str
+error = "error"
 
 
 def requestForecastTomprec():
@@ -59,10 +27,26 @@ def requestForecastTomprec():
 
 		forecast_data = response_body['weather']['forecast3days'][0]
 
-		forecastprec(forecast_data)
+		timeRelease = forecast_data['timeRelease']
+
+                grid_city = forecast_data['grid']['city']
+                grid_county = forecast_data['grid']['county']
+        	grid_village = forecast_data['grid']['village']
+
+        	for_type = forecast_data['fcst3hour']['precipitation']['type7hour']
+
+                if for_type == '0':
+                        type_str = "no rain"
+                elif for_type == '1':
+                        type_str = "rain"
+                elif for_type == '2':
+                        type_str = "rain or snow"
+                elif for_type == '3':
+                        type_str = "snow"
+
+                return type_str
 		
 	else:
-		error = "Error"
 		return error
 
 
@@ -77,57 +61,17 @@ def requestForecastTomtemp():
 
 		forecast_data = response_body['weather']['forecast3days'][0]
 
-		forecasttemp(forecast_data)
+		timeRelease = forecast_data['timeRelease']
+
+                tmax2day = forecast_data['fcstdaily']['temperature']['tmax2day']
+                tmin2day = forecast_data['fcstdaily']['temperature']['tmin2day']
+	
+        	fortemp_str = "min " + tmax2day + " max "+ tmin2day
+
+                return fortemp_str
 		
-	else:
-		error = "Error"
-		return 
-
-
-def minutelyprec(weather):
-	timeObservation = weather['timeObservation']
-	station_name = weather['station']['name']
-	station_id = weather['station']['id']
-	
-	station_type = weather['station']['type']
-	station_latitude = weather['station']['latitude']
-	station_longitude = weather['station']['longitude']
-	
-	precipitation_type = weather['precipitation']['type']
-	precipitation_sinceOntime = weather['precipitation']['sinceOntime']
-
-	if precipitation_type == '0':
-		prec = "no rain"
-	elif precipitation_type == '1':
-		prec = "rain"
-	elif precipitation_type == '2':
-		prec = "rain or snow"
-	elif precipitation_type == '3':
-		prec = "snow"
-
-	return prec
-
-
-def minutelytemp(weather):
-
-	timeObservation = weather['timeObservation']
-
-	temperature_tc = weather['temperature']['tc']
-	temperature_tmax = weather['temperature']['tmax']
-	temperature_tmin = weather['temperature']['tmin']
-
-	station_name = weather['station']['name']
-	station_id = weather['station']['id']
-
-	station_type = weather['station']['type']
-	station_latitude = weather['station']['latitude']
-	station_longitude = weather['station']['longitude']
-
-	#time_str = timeRelease
-	temp_str = 'min ' + temperature_tmin + ' max ' + temperature_tmax
-
-	return temp_str
-
+        else:
+                return error
 
 def requestCurrentTemp():
 
@@ -137,11 +81,19 @@ def requestCurrentTemp():
 		response_body = response.json()
 
 		weather_data = response_body['weather']['minutely'][0]
-		
-		minutelytemp(weather_data)
+
+		timeObservation = weather_data['timeObservation']
+
+                temperature_tmax = weather_data['temperature']['tmax']
+        	temperature_tmin = weather_data['temperature']['tmin']
+
+                #time_str = timeRelease
+                temp_str = 'min ' + temperature_tmin + ' max ' + temperature_tmax
+
+
+                return temp_str
 
 	else:
-		error = "Error"
 		return error
 
 
@@ -154,7 +106,26 @@ def requestCurrentPrec():
 
 		weather_data = response_body['weather']['minutely'][0]
 
-		minutelyprec(weather_data)
+		timeObservation = weather_data['timeObservation']
+                precipitation_type = weather_data['precipitation']['type']
+                precipitation_sinceOntime = weather_data['precipitation']['sinceOntime']
+
+                if precipitation_type == '0':
+                        prec = "no rain"
+                elif precipitation_type == '1':
+                        prec = "rain"
+        	elif precipitation_type == '2':
+                	prec = "rain or snow"
+                elif precipitation_type == '3':
+                        prec = "snow"
+
+                return prec
+
 	else:
-		error = "Error"
 		return error
+
+if __name__ == "__main__":
+        print(requestCurrentTemp())
+        print(requestCurrentPrec())
+        print(requestForecastTomtemp())
+        print(requestForecastTomprec())
