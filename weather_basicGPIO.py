@@ -55,13 +55,17 @@ def setLCD1():
         time.sleep(3)
         
         #창문 LCD 두번째 표시 (오늘날씨) / 3초 동안 지속
-        lcd_string(tomorrow_temp, LCD_LINE_1)
-        lcd_string(tomorrow_prec, LCD_LINE_2)
+        lcd_string("today",LCD_LINE_1)
+        lcd_string(today_temp, LCD_LINE_2)
+        time.sleep(2)
+        lcd_string(today_prec, LCD_LINE_2)
         time.sleep(3)
 
         #창문 LCD 세번째 표시 (내일날씨) / 3초 동안 지속
-        lcd_string(today_temp, LCD_LINE_1)
-        lcd_string(today_prec, LCD_LINE_2)
+        lcd_string("tomorrow", LCD_LINE_1)
+        lcd_string(tomorrow_temp, LCD_LINE_2)
+        time.sleep(2)
+        lcd_string(tomorrow_prec, LCD_LINE_2)
         time.sleep(3)
 
 #창문 열렸을 때 LCD 기본값
