@@ -4,7 +4,6 @@ import weather as we
 import finedust_ver2 as dust
 import time
 import threading
-import weather as we
 
 def setGPIO():
     GPIO.setmode(GPIO.BCM)
@@ -58,21 +57,21 @@ def setLCD1():
         #창문 LCD 첫번째 표시 (미세먼지) / 3초 동안 지속
         lcd_string(value10, LCD_LINE_1)
         lcd_string(value25, LCD_LINE_2)
-        time.sleep(3)
+        time.sleep(5)
         
         #창문 LCD 두번째 표시 (오늘날씨) / 3초 동안 지속
         lcd_string("today",LCD_LINE_1)
         lcd_string(today_temp, LCD_LINE_2)
-        time.sleep(2)
+        time.sleep(4)
         lcd_string(today_prec, LCD_LINE_2)
-        time.sleep(3)
+        time.sleep(5)
 
         #창문 LCD 세번째 표시 (내일날씨) / 3초 동안 지속
         lcd_string("tomorrow", LCD_LINE_1)
         lcd_string(tomorrow_temp, LCD_LINE_2)
-        time.sleep(2)
+        time.sleep(4)
         lcd_string(tomorrow_prec, LCD_LINE_2)
-        time.sleep(3)
+        time.sleep(5)
 
 #창문 열렸을 때 LCD 기본값
 def setLCD2():
@@ -93,7 +92,7 @@ def setLCD2():
     
     lcd_string(state, LCD_LINE_1)
     lcd_string(order, LCD_LINE_2)
-    time.sleep(5)
+    time.sleep(4)
         
 def lcd_init():
     lcd_byte(0x33, LCD_CMD)
@@ -167,8 +166,12 @@ def setUltrasonic():
         
     #창문 열렸을 때 거리 기준값 설정
         if (dist >= 20):
-            setPiezo()
-            setLCD2()
+            #미세먼지 등급
+            state = dust.grade_state()
+
+            if (state == '2') or (state == '3') or (state == '4'):           
+                setPiezo()
+                setLCD2()
 
 def distance():
     GPIO.output(GPIO_TRIGGER, True)
