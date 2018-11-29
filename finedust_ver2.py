@@ -58,8 +58,7 @@ def display_value25():
         message = "-Can't loading-"
         return message
 
-#미세먼지 등급
-#미세먼지 경고 LCD출력
+#미세먼지 등급 LCD 출력
 def grade_state():
 
     response = requests.get(url_dust, params = datainfo)    #미세먼지 데이터 요청
@@ -85,6 +84,7 @@ def grade_state():
         grade = "Grade: VERY BAD"
         return grade
 
+#미세먼지 경고 LCD출력
 def grade_order():
     
     response = requests.get(url_dust, params = datainfo)    #미세먼지 데이터 요청
@@ -109,3 +109,27 @@ def grade_order():
     else:                                                    #매우나쁨
         order = "DON'T OPEN!"
         return order
+
+#미세먼지 등급 값 반환
+def grade_value():
+
+    response = requests.get(url_dust, params = datainfo)    #미세먼지 데이터 요청
+    
+
+    dustData = response.json()                              #json타입으로 받은 데이터를 dict로 바꿈
+    pm10grade = dustData['list'][0]['pm10Grade']            #미세먼지 등급
+  
+
+    if (pm10grade == '1'):                                   #좋음
+        return pm10grade
+
+    elif (pm10grade == '2'):                                 #보통
+        return pm10grade
+        
+    elif (pm10grade == '3'):                                 #나쁨
+        return pm10grade
+    
+    else:                                                    #매우나쁨
+        return pm10grade
+
+    
