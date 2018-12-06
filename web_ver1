@@ -1,5 +1,6 @@
 #-*- coding: utf-8 -*-
 import RPi.GPIO as GPIO
+import finedust_ver2 as dust
 import time
 from flask import Flask, render_template
 
@@ -24,7 +25,9 @@ rn.start(90)
 
 @app.route('/')
 def index():
-        return render_template('layout.html')
+        value = dust.display_value10()
+        state = dust.grade_state()
+        return render_template('layout.html',pm10value=value,pm10grade=state)
 
 @app.route('/forward')
 def window_open():
