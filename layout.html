@@ -1,56 +1,32 @@
-#-*- coding: utf-8 -*-
-import RPi.GPIO as GPIO
-import finedust as dust
-import time
-from flask import Flask, render_template
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8"http-equiv="refresh" content="600;url=#">
+    <title>SMARTWINDOW</title>
+  </head>
+    <body>
+	<div>
+		<h2>SmartWindow Service</h2>
+		<p>현재 미세먼지 상태와 창문 제어 서비스를 제공합니다.</p><hr>
+	</div>
+	<div>
+		<h3>[Finedust Info]</h3>
 
+		<p> 
+	    	▶{{pm10value}}<br>
+	    	▶{{pm10grade}}<br><br>
+		<button onClick="window.location.reload()">UPDATE</button>
+		</p>
+	</div>
+	
+	<div>
+		<h3>[Window Control]</h3>
+		<p> 
+		  {{response}}
+	   	 <button class="bnt" onclick="window.location.href='/forward'">OPEN</button>
+	   	 <button onclick="window.location.href='/backward'">CLOSE</button>
+		</p>
+	</div>
 
-app = Flask(__name__)
-
-GPIO.setmode(GPIO.BCM)
-GPIO.setwarnings(False)
-
-GPIO_RP = 4  #Input Pin
-GPIO_RN = 25 #Input Pin
-GPIO_EN = 12 #Enable Pin
-
-GPIO.setup(GPIO_RP, GPIO.OUT)
-GPIO.setup(GPIO_RN, GPIO.OUT)
-GPIO.setup(GPIO_EN, GPIO.OUT)
-
-rp = GPIO.PWM(GPIO_RP,100)
-rn = GPIO.PWM(GPIO_RN,100)
-rp.start(90)
-rn.start(90)
-
-@app.route('/')
-def index():
-        value = dust.display_value10()
-        state = dust.grade_state()
-        return render_template('layout.html',pm10value=value,pm10grade=state)
-
-
-@app.route('/forward')
-def window_open():
-        GPIO.output(GPIO_RP, True)
-        GPIO.output(GPIO_RN, False)
-        GPIO.output(GPIO_EN, True)
-        time.sleep(4)
-        GPIO.output(GPIO_EN, False)
-        return (''), 204
-
-@app.route('/backward')        
-def window_close():
-	GPIO.output(GPIO_RP, False)
-        GPIO.output(GPIO_RN, True)
-        GPIO.output(GPIO_EN, True)
-        time.sleep(4)
-        GPIO.output(GPIO_EN, False)
-        return (''), 204        
- 
-
-
-if __name__ == "__main__":
-	app.run(debug=True, host='0.0.0.0',port=8080)
-
-
+ </body>
+</html>
